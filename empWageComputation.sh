@@ -10,7 +10,7 @@ empPartTimeHrs=4
 empWageRatePerHr=20
 monthlyWorkingHrs=100
 monthlyWorkingDays=20
-declare -A DailyWage
+declare -a DailyWage
 empWorkingHrs=0
 totalWageFortheMonth=0
 
@@ -24,7 +24,7 @@ do
 			case "$empHrsCheck" in
 				$isFullTime)
 						empWageForTheDay=$(($empFullTimeHrs*$empWageRatePerHr))
-						DailyWage[$day]=$empWageForTheDay
+						DailyWage[$(($day-1))]=$empWageForTheDay
 						totalWageForTheMonth=$(($totalWageForTheMonth+$empWageForTheDay))
 						empWorkingHrs=$(($empWorkingHrs+$empFullTimeHrs))
 						if [ $empWorkingHrs -eq $monthlyWorkingHrs ]
@@ -34,7 +34,7 @@ do
 						;;
 				$isPartTime)
 						empWageForTheDay=$(($empPartTimeHrs*$empWageRatePerHr))
-						DailyWage[$day]=$empWageForTheDay
+						DailyWage[$(($day-1))]=$empWageForTheDay
 						totalWageForTheMonth=$(($totalWageForTheMonth+$empWageForTheDay))
 						empWorkingHrs=$(($empWorkingHrs+$empPartTimeHrs))
 						if [ $empWorkingHrs -eq $monthlyWorkingHrs ]
@@ -48,7 +48,7 @@ do
 			esac
 			;;
 		$isAbsent)
-			DailyWage[$day]=0
+			DailyWage[$(($day-1))]=0
 			;;
 		*)
 			echo "Error!"
