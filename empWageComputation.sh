@@ -7,9 +7,12 @@ isFullTime=1
 isPartTime=2
 empFullTimeHrs=8
 empPartTimeHrs=4
+empWageRatePerHr=20
 monthlyWorkingHrs=100
 monthlyWorkingDays=20
+declare -A DailyWage
 empWorkingHrs=0
+totalWageFortheMonth=0
 
 for ((day=1;day<=$monthlyWorkingDays;day++))
 do
@@ -20,6 +23,9 @@ do
 		$isPresent)
 			case "$empHrsCheck" in
 				$isFullTime)
+						empWageForTheDay=$(($empFullTimeHrs*$empWageRatePerHr))
+						DailyWage[$day]=$empWageForTheDay
+						totalWageForTheMonth=$(($totalWageForTheMonth+$empWageForTheDay))
 						empWorkingHrs=$(($empWorkingHrs+$empFullTimeHrs))
 						if [ $empWorkingHrs -eq $monthlyWorkingHrs ]
 						then
@@ -27,6 +33,9 @@ do
 						fi
 						;;
 				$isPartTime)
+						empWageForTheDay=$(($empPartTimeHrs*$empWageRatePerHr))
+						DailyWage[$day]=$empWageForTheDay
+						totalWageForTheMonth=$(($totalWageForTheMonth+$empWageForTheDay))
 						empWorkingHrs=$(($empWorkingHrs+$empPartTimeHrs))
 						if [ $empWorkingHrs -eq $monthlyWorkingHrs ]
 						then
@@ -39,7 +48,7 @@ do
 			esac
 			;;
 		$isAbsent)
-			echo "Employee absent!"
+			DailyWage[$day]=0
 			;;
 		*)
 			echo "Error!"
@@ -47,4 +56,5 @@ do
 	esac
 done
 
-echo "Total employee working hrs for the month are: $empWorkingHrs"
+#echo "Daily wages: "${DailyWage[@]}  # Use if necessary!
+#echo "Total employee wage for the month is: $totalWageForTheMonth"
