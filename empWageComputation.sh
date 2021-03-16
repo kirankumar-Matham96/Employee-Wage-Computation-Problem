@@ -7,7 +7,7 @@ attendanceCheck=$((RANDOM%2))
 
 if [ $isPresent -eq $attendanceCheck ]
 then
-	echo "Employee present"
+	echo "Employee present!"
 else
 	echo "Employee absent!"
 fi
