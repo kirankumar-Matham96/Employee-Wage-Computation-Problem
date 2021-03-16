@@ -7,11 +7,9 @@ isFullTime=1
 isPartTime=2
 empFullTimeHrs=8
 empPartTimeHrs=4
-empWageRatePerHr=20
 monthlyWorkingHrs=100
 monthlyWorkingDays=20
 empWorkingHrs=0
-totalWageFortheMonth=0
 
 for ((day=1;day<=$monthlyWorkingDays;day++))
 do
@@ -22,8 +20,6 @@ do
 		$isPresent)
 			case "$empHrsCheck" in
 				$isFullTime)
-						empWageForTheDay=$(($empFullTimeHrs*$empWageRatePerHr))
-						totalWageForTheMonth=$(($totalWageForTheMonth+$empWageForTheDay))
 						empWorkingHrs=$(($empWorkingHrs+$empFullTimeHrs))
 						if [ $empWorkingHrs -eq $monthlyWorkingHrs ]
 						then
@@ -31,8 +27,6 @@ do
 						fi
 						;;
 				$isPartTime)
-						empWageForTheDay=$(($empPartTimeHrs*$empWageRatePerHr))
-						totalWageForTheMonth=$(($totalWageForTheMonth+$empWageForTheDay))
 						empWorkingHrs=$(($empWorkingHrs+$empPartTimeHrs))
 						if [ $empWorkingHrs -eq $monthlyWorkingHrs ]
 						then
@@ -53,4 +47,4 @@ do
 	esac
 done
 
-echo "Total employee wage for the month is: $totalWageForTheMonth"
+echo "Total employee working hrs for the month are: $empWorkingHrs"
