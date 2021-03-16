@@ -11,14 +11,24 @@ empWageRatePerHr=20
 attendanceCheck=$((RANDOM%2))
 empHrsCheck=$((1+RANDOM%2))
 
-if [ $isPresent -eq $attendanceCheck ]
-then
-	if [ $isFullTime -eq $empHrsCheck ]
-	then
-		empWageForTheDay=$(($empFullTimeHrs*$empWageRatePerHr))
-	else
-		empWageForTheDay=$(($empPartTimeHrs*$empWageRatePerHr))
-	fi
-else
-	echo "Employee absent!"
-fi
+case "$attendanceCheck" in
+	$isPresent)
+			case "$empHrsCheck" in
+				$isFullTime)
+						empWageForTheDay=$(($empFullTimeHrs*$empWageRatePerHr))
+						;;
+				$isPartTime)
+						empWageForTheDay=$(($empPartTimeHrs*$empWageRatePerHr))
+						;;
+				*)
+						echo "Error!"
+						;;
+			esac
+			;;
+	$isAbsent)
+			echo "Employee absent!"
+			;;
+	*)
+			echo "Error!"
+			;;
+esac
